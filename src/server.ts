@@ -1,4 +1,5 @@
 import express from "express";
+import morgan from "morgan";
 
 class Server {
   public app: express.Application;
@@ -9,6 +10,7 @@ class Server {
 
   config() {
     this.app.set("port", process.env.PORT || 3000);
+    this.app.use(morgan('dev'));
   }
 
   routes() {}
