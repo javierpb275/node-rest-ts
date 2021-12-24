@@ -8,25 +8,36 @@ class PostRoutes {
     this.routes();
   }
 
-  async getPosts(req: Request, res: Response): Promise<void> {
+  public async getPosts(req: Request, res: Response): Promise<void> {
     const posts: Post[] = await PostModel.find();
     res.json(posts);
   }
 
-  async getPost(req: Request, res: Response): Promise<void> {
-    res.json();
+  public async getPost(req: Request, res: Response): Promise<void> {
+    const post = await PostModel.findOne({ url: req.params.url });
+    res.json(post);
   }
 
-  async createPost(req: Request, res: Response): Promise<void> {
-    const {title, url, content, image} = req.body;
-    const newPost: Post = new PostModel({title, url, content, image});
+  public async createPost(req: Request, res: Response): Promise<void> {
+    const { title, url, content, image } = req.body;
+    const newPost: Post = new PostModel({ title, url, content, image });
     await newPost.save();
-    res.json({data: newPost});
+    res.json({ data: newPost });
   }
 
-  updatePost() {}
+  public async updatePost(req: Request, res: Response): Promise<void> {
+    const { url } = req.params;
+    const updatedPost = await PostModel.findOneAndUpdate({ url }, req.body, {
+      new: true,
+    });
+    res.json(updatedPost);
+  }
 
-  deletePost() {}
+  public async deletePost(req: Request, res: Response): Promise<void> {
+    const { url } = req.params;
+    const deletedPost = await PostModel.findOneAndDelete({ url });
+    res.json(deletedPost);
+  }
 
   routes() {
     this.router.get("/", this.getPosts);
