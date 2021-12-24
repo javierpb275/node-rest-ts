@@ -1,6 +1,9 @@
 import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
+import mongoose from "mongoose";
+
+//Routes:
 import indexRoutes from "./routes/indexRoutes";
 
 class Server {
@@ -12,6 +15,11 @@ class Server {
   }
 
   config() {
+    mongoose
+      .connect(`${process.env.MONGODB_URL}`)
+      .then((db) => console.log("db is connected"))
+      .catch((err) => console.log("error connecting to db"));
+    //Settings
     this.app.set("port", process.env.PORT || 3000);
     //Middlewares
     this.app.use(morgan("dev"));
