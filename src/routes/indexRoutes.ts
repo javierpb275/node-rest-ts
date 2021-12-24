@@ -10,13 +10,11 @@ class IndexRoutes {
 
   routes() {
     this.router.get("/", (req: Request, res: Response) =>
-      res.send("Hello World")
+      res.send("Api: /api/posts")
     );
   }
 }
 
 const indexRoutes: IndexRoutes = new IndexRoutes();
-
-indexRoutes.routes();
 
 export default indexRoutes.router;

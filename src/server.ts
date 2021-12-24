@@ -2,11 +2,12 @@ import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import mongoose from "mongoose";
-import compression from 'compression';
-import cors from 'cors';
+import compression from "compression";
+import cors from "cors";
 
 //Routes:
 import indexRoutes from "./routes/indexRoutes";
+import postRoutes from "./routes/postRoutes";
 
 class Server {
   public app: express.Application;
@@ -26,7 +27,7 @@ class Server {
     //Middlewares
     this.app.use(morgan("dev"));
     this.app.use(express.json());
-    this.app.use(express.urlencoded({extended: false}));
+    this.app.use(express.urlencoded({ extended: false }));
     this.app.use(helmet());
     this.app.use(compression());
     this.app.use(cors());
@@ -34,6 +35,7 @@ class Server {
 
   routes() {
     this.app.use(indexRoutes);
+    this.app.use("/api", postRoutes);
   }
 
   start() {
