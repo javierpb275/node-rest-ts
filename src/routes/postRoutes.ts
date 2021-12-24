@@ -1,4 +1,5 @@
 import { Request, Response, Router } from "express";
+import PostModel, { Post } from "../models/Post";
 
 class PostRoutes {
   router: Router;
@@ -7,13 +8,21 @@ class PostRoutes {
     this.routes();
   }
 
-  getPosts(req: Request, res: Response) {
-    res.send("hello");
+  async getPosts(req: Request, res: Response): Promise<void> {
+    const posts: Post[] = await PostModel.find();
+    res.json(posts);
   }
 
-  getPost() {}
+  async getPost(req: Request, res: Response): Promise<void> {
+    res.json();
+  }
 
-  createPost() {}
+  async createPost(req: Request, res: Response): Promise<void> {
+    const {title, url, content, image} = req.body;
+    const newPost: Post = new PostModel({title, url, content, image});
+    await newPost.save();
+    res.json({data: newPost});
+  }
 
   updatePost() {}
 
