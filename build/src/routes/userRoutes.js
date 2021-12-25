@@ -21,13 +21,13 @@ class UserRoutes {
     }
     getUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const users = yield User_1.default.find();
+            const users = yield User_1.default.find().populate('posts');
             res.json(users);
         });
     }
     getUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield User_1.default.findOne({ email: req.params.email });
+            const user = yield User_1.default.findOne({ email: req.params.email }).populate('posts');
             res.json(user);
         });
     }

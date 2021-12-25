@@ -9,12 +9,12 @@ class UserRoutes {
   }
 
   public async getUsers(req: Request, res: Response): Promise<void> {
-    const users: User[] = await UserModel.find();
+    const users: User[] = await UserModel.find().populate('posts');
     res.json(users);
   }
 
   public async getUser(req: Request, res: Response): Promise<void> {
-    const user = await UserModel.findOne({ email: req.params.email });
+    const user: User = await UserModel.findOne({ email: req.params.email }).populate('posts');
     res.json(user);
   }
 
